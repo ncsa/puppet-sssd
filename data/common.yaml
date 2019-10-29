@@ -1,0 +1,52 @@
+---
+lookup_options:
+    sssd::services:
+        merge:
+            strategy: deep
+            knockout_prefix: '-'
+    sssd::domains:
+        merge:
+            strategy: deep
+            knockout_prefix: '-'
+
+sssd::certificate_verification: null
+sssd::conf_file: /etc/sssd/sssd.conf
+sssd::config_file_version: 2
+sssd::debug: null
+sssd::debug_level: null
+sssd::debug_microseconds: null
+sssd::debug_timestamps: null
+sssd::default_domain_suffix: null
+sssd::disable_netlink: null
+sssd::domain_resolution_order: null
+sssd::domains: {}
+sssd::enable_files_domain: null
+sssd::full_name_format: null
+sssd::krb5_rcache_dir: null
+sssd::override_space: null
+sssd::re_expression: null
+sssd::reconnection_retries: null
+sssd::service_enable: true
+sssd::service_ensure: running
+sssd::service_name: sssd
+sssd::services: {}
+sssd::socket_services: null
+sssd::try_inotify: null
+sssd::use_socket_activation: null
+sssd::user: null
+
+sssd::dbus::allowed_uids: null
+sssd::dbus::cache_first: null
+sssd::dbus::client_idle_timeout: null
+sssd::dbus::debug: null
+sssd::dbus::debug_level: null
+sssd::dbus::debug_microseconds: null
+sssd::dbus::debug_timestamps: null
+sssd::dbus::fd_limit: null
+sssd::dbus::offline_timeout: null
+sssd::dbus::package_name: sssd-dbus
+sssd::dbus::reconnection_retries: null
+sssd::dbus::responder_idle_timeout: null
+sssd::dbus::timeout: null
+sssd::dbus::user_attributes: null
+sssd::dbus::wildcard_limit: null

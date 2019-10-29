@@ -8,7 +8,9 @@ class sssd::config {
     default => $user,
   }
 
-  file { $::sssd::conf_dir:
+  # Get parent dir from absolute path
+  $conf_dir = $::sssd::conf_file.split('/')[0,-2].join('/')
+  file { $conf_dir:
     ensure => directory,
     owner  => $owner,
     group  => 0,
