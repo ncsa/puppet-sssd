@@ -6,7 +6,6 @@
 #   include ::sssd::dbus
 #
 # @param package_name
-# @param use_socket_activation
 # @param debug
 # @param debug_level
 # @param debug_timestamps
@@ -27,26 +26,25 @@
 #
 # @since 1.0.0
 class sssd::dbus (
-  String                                          $package_name           = $::sssd::params::dbus_package_name,
-  Boolean                                         $use_socket_activation  = $::sssd::use_socket_activation,
+  String                                          $package_name,
   # options for any section
-  Optional[Integer[0]]                            $debug                  = undef,
-  Optional[Integer[0]]                            $debug_level            = undef,
-  Optional[Boolean]                               $debug_timestamps       = undef,
-  Optional[Boolean]                               $debug_microseconds     = undef,
+  Optional[Integer[0]]                            $debug,
+  Optional[Integer[0]]                            $debug_level,
+  Optional[Boolean]                               $debug_timestamps,
+  Optional[Boolean]                               $debug_microseconds,
   # generic service options
-  Optional[Integer[0]]                            $timeout                = undef,
-  Optional[Integer[0]]                            $reconnection_retries   = undef,
-  Optional[Integer[0]]                            $fd_limit               = undef,
-  Optional[Integer[0]]                            $client_idle_timeout    = undef,
-  Optional[Integer[0]]                            $offline_timeout        = undef,
-  Optional[Integer[0]]                            $responder_idle_timeout = undef,
-  Optional[Boolean]                               $cache_first            = undef,
+  Optional[Integer[0]]                            $timeout,
+  Optional[Integer[0]]                            $reconnection_retries,
+  Optional[Integer[0]]                            $fd_limit,
+  Optional[Integer[0]]                            $client_idle_timeout,
+  Optional[Integer[0]]                            $offline_timeout,
+  Optional[Integer[0]]                            $responder_idle_timeout,
+  Optional[Boolean]                               $cache_first,
   # options for [ifp] section
-  Optional[Array[Variant[Integer[0], String], 1]] $allowed_uids           = undef,
-  Optional[Array[String, 1]]                      $user_attributes        = undef,
-  Optional[Integer[0]]                            $wildcard_limit         = undef,
-) inherits ::sssd::params {
+  Optional[Array[Variant[Integer[0], String], 1]] $allowed_uids,
+  Optional[Array[String, 1]]                      $user_attributes,
+  Optional[Integer[0]]                            $wildcard_limit,
+) {
 
   if ! defined(Class['::sssd']) {
     fail('You must include the sssd base class before using the sssd::dbus class')

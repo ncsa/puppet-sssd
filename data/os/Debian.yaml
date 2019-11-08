@@ -1,0 +1,5 @@
+---
+sssd::package_name:
+    - sssd
+    - libpam-sss
+    - libnss-sss

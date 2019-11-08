@@ -81,20 +81,20 @@
 # @since 1.0.0
 define sssd::service (
   SSSD::Type                                                   $service                        = $title,
-  Boolean                                                      $use_socket_activation          = $::sssd::use_socket_activation,
   # options for any section
   Optional[Integer[0]]                                         $debug                          = undef,
   Optional[Integer[0]]                                         $debug_level                    = undef,
   Optional[Boolean]                                            $debug_timestamps               = undef,
   Optional[Boolean]                                            $debug_microseconds             = undef,
   # generic service options
-  Optional[Integer[0]]                                         $timeout                        = undef,
-  Optional[Integer[0]]                                         $reconnection_retries           = undef,
-  Optional[Integer[0]]                                         $fd_limit                       = undef,
-  Optional[Integer[0]]                                         $client_idle_timeout            = undef,
-  Optional[Integer[0]]                                         $offline_timeout                = undef,
-  Optional[Integer[0]]                                         $responder_idle_timeout         = undef,
   Optional[Boolean]                                            $cache_first                    = undef,
+  Optional[Integer[0]]                                         $client_idle_timeout            = undef,
+  Optional[Integer[0]]                                         $fd_limit                       = undef,
+  Optional[Integer[0]]                                         $offline_timeout                = undef,
+  Optional[Integer[0]]                                         $reconnection_retries           = undef,
+  Optional[Integer[0]]                                         $responder_idle_timeout         = undef,
+  Optional[Integer[0]]                                         $timeout                        = undef,
+  Optional[Boolean]                                            $use_socket_activation          = undef,
   # options for [nss] section
   Optional[Integer[0]]                                         $enum_cache_timeout             = undef,
   Optional[Integer[0]]                                         $entry_cache_nowait_percentage  = undef,
@@ -169,11 +169,24 @@ define sssd::service (
     fail('You must include the sssd base class before using any sssd defined resources')
   }
 
-  if $use_socket_activation and $::service_provider != 'systemd' {
+  # Try to choose useful default if use_socket_activation was not specified
+  if $use_socket_activation =~ Undef {
+    if $::sssd::use_socket_activation =~ Undef {
+      $_use_socket_activation = $::service_provider ? {
+        'systemd' => true,
+        default   => false,
+      }
+    }
+    else {
+      $_use_socket_activation = $::sssd::use_socket_activation
+    }
+  }
+
+  if $_use_socket_activation and $::service_provider != 'systemd' {
     fail('Systemd is required for socket-activated services')
   }
 
-  if ! $use_socket_activation and $service == 'secrets' {
+  if ! $_use_socket_activation and $service == 'secrets' {
     fail('Socket-activation is required for the secrets service')
   }
 
@@ -334,10 +347,29 @@ define sssd::service (
     }
   }
 
-  if $use_socket_activation {
+  if $_use_socket_activation {
 
-    if has_key($::sssd::socket_services, $service) {
-      Array($::sssd::socket_services[$service], true).each |String $x| {
+    # create a useful default list of socket service names for each type of service
+    # if not specified by the user
+    if $::sssd::socket_services =~ Undef {
+      $_socket_services = ['nss', 'pam', 'sudo', 'autofs', 'ssh', 'pac', 'secrets'].reduce({}) |Hash $memo, SSSD::Type $service| {
+        $memo + {
+          $service => $service ? {
+            'pam'   => [
+              "sssd-${service}.socket",
+              "sssd-${service}-priv.socket",
+            ],
+            default => "sssd-${service}.socket",
+          }
+        }
+      }
+    }
+    else {
+      $_socket_services = $::sssd::socket_services
+    }
+
+    if has_key($_socket_services, $service) {
+      Array($_socket_services[$service], true).each |String $x| {
         service { $x:
           enable  => $::sssd::service_enable,
           require => Exec['systemctl daemon-reload'],
@@ -348,8 +380,8 @@ define sssd::service (
 
     if $::service_provider == 'systemd' {
 
-      if has_key($::sssd::socket_services, $service) {
-        Array($::sssd::socket_services[$service], true).each |String $x| {
+      if has_key($_socket_services, $service) {
+        Array($_socket_services[$service], true).each |String $x| {
           service { $x:
             ensure  => stopped,
             enable  => false,
@@ -358,12 +390,12 @@ define sssd::service (
         }
       }
     }
+  }
 
-    datacat_fragment { "${module_name} service ${service}":
-      target => "${module_name} services",
-      data   => {
-        'service' => [$service],
-      },
-    }
+  datacat_fragment { "${module_name} service ${service}":
+    target => "${module_name} services",
+    data   => {
+      'service' => [$service],
+    },
   }
 }
