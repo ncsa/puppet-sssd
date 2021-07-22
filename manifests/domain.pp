@@ -122,6 +122,7 @@
 # @param ldap_user_principal
 # @param ldap_user_extra_attrs
 # @param ldap_user_ssh_public_key
+# @param ldap_user_email
 # @param ldap_force_upper_case_realm
 # @param ldap_enumeration_refresh_timeout
 # @param ldap_purge_cache_timeout
@@ -411,6 +412,7 @@ define sssd::domain (
   Optional[String]                                                         $ldap_user_principal                           = undef,
   Optional[Array[String, 1]]                                               $ldap_user_extra_attrs                         = undef,
   Optional[String]                                                         $ldap_user_ssh_public_key                      = undef,
+  Optional[String]                                                         $ldap_user_email                               = undef,
   Optional[Boolean]                                                        $ldap_force_upper_case_realm                   = undef,
   Optional[Integer[0]]                                                     $ldap_enumeration_refresh_timeout              = undef,
   Optional[Integer[0]]                                                     $ldap_purge_cache_timeout                      = undef,
@@ -707,6 +709,7 @@ define sssd::domain (
     'ldap_user_principal'                           => $ldap_user_principal,
     'ldap_user_extra_attrs'                         => '',
     'ldap_user_ssh_public_key'                      => $ldap_user_ssh_public_key,
+    'ldap_user_email'                               => $ldap_user_email,
     'ldap_force_upper_case_realm'                   => $ldap_force_upper_case_realm,
     'ldap_enumeration_refresh_timeout'              => $ldap_enumeration_refresh_timeout,
     'ldap_purge_cache_timeout'                      => $ldap_purge_cache_timeout,
