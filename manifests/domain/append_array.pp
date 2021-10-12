@@ -9,8 +9,8 @@ define sssd::domain::append_array(
 )
 {
     $item_str = $items.sort.unique.join(',')
-    datacat_fragment { "sssd add items '${item_str}' to '${setting}' in domain '${domain}'":
+    ensure_resource( 'datacat_fragment', "sssd add items '${item_str}' to '${setting}' in domain '${domain}'", {
         target => "sssd/domain/${domain}/${setting}",
         data   => { 'items' => $items },
-    }
+    } )
 }
