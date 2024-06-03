@@ -589,8 +589,7 @@ define sssd::domain (
   Optional[String]                                                         $ipa_user_override_object_class                = undef,
   Optional[String]                                                         $ipa_group_override_object_class               = undef,
 ) {
-
-  if ! defined(Class['::sssd']) {
+  if ! defined(Class['sssd']) {
     fail('You must include the sssd base class before using any sssd defined resources')
   }
 
@@ -886,9 +885,9 @@ define sssd::domain (
 
   $config.each |String $setting, Any $value| {
     sssd_conf { "domain/${domain}/${setting}":
-      target => $::sssd::conf_file,
+      target => $sssd::conf_file,
       value  => $value,
-      notify => Class['::sssd::daemon'],
+      notify => Class['sssd::daemon'],
     }
   }
 
@@ -944,7 +943,6 @@ define sssd::domain (
       }
     }
   }
-
 
   datacat_fragment { "${module_name} domain ${domain}":
     target => "${module_name} domains",

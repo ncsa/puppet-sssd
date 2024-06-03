@@ -7,24 +7,24 @@ describe 'sssd::domain' do
 
   let(:params) do
     {
-      :enumerate                 => true,
-      :cache_credentials         => true,
-      :id_provider               => 'ldap',
-      :auth_provider             => 'ldap',
-      :ldap_schema               => 'rfc2307',
-      :chpass_provider           => 'ldap',
-      :ldap_uri                  => [
+      enumerate: true,
+      cache_credentials: true,
+      id_provider: 'ldap',
+      auth_provider: 'ldap',
+      ldap_schema: 'rfc2307',
+      chpass_provider: 'ldap',
+      ldap_uri: [
         'ldap://ldap1.example.com',
         'ldap://ldap2.example.com',
       ],
-      :ldap_search_base          => 'dc=example,dc=com',
-      :ldap_tls_reqcert          => 'demand',
-      :ldap_id_use_start_tls     => true,
-      :entry_cache_timeout       => 600,
-      :ldap_network_timeout      => 3,
-      :ldap_default_bind_dn      => 'cn=Manager,dc=example,dc=com',
-      :ldap_default_authtok_type => 'password',
-      :ldap_default_authtok      => 'secret',
+      ldap_search_base: 'dc=example,dc=com',
+      ldap_tls_reqcert: 'demand',
+      ldap_id_use_start_tls: true,
+      entry_cache_timeout: 600,
+      ldap_network_timeout: 3,
+      ldap_default_bind_dn: 'cn=Manager,dc=example,dc=com',
+      ldap_default_authtok_type: 'password',
+      ldap_default_authtok: 'secret',
     }
   end
 

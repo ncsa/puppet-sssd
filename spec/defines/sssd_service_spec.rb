@@ -1,20 +1,19 @@
 require 'spec_helper'
 
 describe 'sssd::service' do
-
   let(:params) do
     {
-      :debug                  => 0x77f0,
-      :debug_level            => 0x77f0,
-      :debug_timestamps       => true,
-      :debug_microseconds     => true,
-      :timeout                => 10,
-      :reconnection_retries   => 3,
-      :fd_limit               => 8192,
-      :client_idle_timeout    => 60,
-      :offline_timeout        => 60,
-      :responder_idle_timeout => 300,
-      :cache_first            => false,
+      debug: 0x77f0,
+      debug_level: 0x77f0,
+      debug_timestamps: true,
+      debug_microseconds: true,
+      timeout: 10,
+      reconnection_retries: 3,
+      fd_limit: 8192,
+      client_idle_timeout: 60,
+      offline_timeout: 60,
+      responder_idle_timeout: 300,
+      cache_first: false,
     }
   end
 
@@ -53,26 +52,26 @@ describe 'sssd::service' do
           let(:params) do
             super().merge(
               {
-                :enum_cache_timeout            => 120,
-                :entry_cache_nowait_percentage => 50,
-                :entry_negative_timeout        => 15,
-                :local_negative_timeout        => 0,
-                :filter_groups                 => ['root'],
-                :filter_users                  => ['root'],
-                :filter_users_in_groups        => true,
-                :override_homedir              => '/home/%u',
-                :homedir_substring             => '/home',
-                :fallback_homedir              => '/home/%u',
-                :override_shell                => '/bin/sh',
-                :allowed_shells                => ['/bin/bash', '/bin/zsh'],
-                :vetoed_shells                 => ['/bin/csh'],
-                :shell_fallback                => '/bin/sh',
-                :default_shell                 => '/bin/bash',
-                :get_domains_timeout           => 60,
-                :memcache_timeout              => 300,
-                :user_attributes               => ['+telephoneNumber'],
-                :pwfield                       => '*',
-              }
+                enum_cache_timeout: 120,
+                entry_cache_nowait_percentage: 50,
+                entry_negative_timeout: 15,
+                local_negative_timeout: 0,
+                filter_groups: ['root'],
+                filter_users: ['root'],
+                filter_users_in_groups: true,
+                override_homedir: '/home/%u',
+                homedir_substring: '/home',
+                fallback_homedir: '/home/%u',
+                override_shell: '/bin/sh',
+                allowed_shells: ['/bin/bash', '/bin/zsh'],
+                vetoed_shells: ['/bin/csh'],
+                shell_fallback: '/bin/sh',
+                default_shell: '/bin/bash',
+                get_domains_timeout: 60,
+                memcache_timeout: 300,
+                user_attributes: ['+telephoneNumber'],
+                pwfield: '*',
+              },
             )
           end
 
@@ -82,8 +81,8 @@ describe 'sssd::service' do
           it { is_expected.to contain_sssd_conf('nss/allowed_shells').with_value('/bin/bash, /bin/zsh') }
           it { is_expected.to contain_sssd_conf('nss/cache_first').with_value(false) }
           it { is_expected.to contain_sssd_conf('nss/client_idle_timeout').with_value('60') }
-          it { is_expected.to contain_sssd_conf('nss/debug').with_value(30704) }
-          it { is_expected.to contain_sssd_conf('nss/debug_level').with_value(30704) }
+          it { is_expected.to contain_sssd_conf('nss/debug').with_value(30_704) }
+          it { is_expected.to contain_sssd_conf('nss/debug_level').with_value(30_704) }
           it { is_expected.to contain_sssd_conf('nss/debug_microseconds').with_value('true') }
           it { is_expected.to contain_sssd_conf('nss/debug_timestamps').with_value('true') }
           it { is_expected.to contain_sssd_conf('nss/default_shell').with_value('/bin/bash') }
@@ -126,23 +125,23 @@ describe 'sssd::service' do
           let(:params) do
             super().merge(
               {
-                :offline_credentials_expiration => 0,
-                :offline_failed_login_attempts  => 0,
-                :offline_failed_login_delay     => 5,
-                :pam_verbosity                  => 1,
-                :pam_response_filter            => ['ENV'],
-                :pam_id_timeout                 => 5,
-                :pam_pwd_expiration_warning     => 0,
-                :get_domains_timeout            => 60,
-                :pam_trusted_users              => [0],
-                :pam_public_domains             => ['none'],
-                :pam_account_expired_message    => 'Account expired, please call help desk.',
-                :pam_account_locked_message     => 'Account locked, please contact help desk.',
-                :pam_cert_auth                  => false,
-                :pam_cert_db_path               => '/etc/pki/nssdb',
-                :p11_child_timeout              => 10,
-                :pam_app_services               => ['test'],
-              }
+                offline_credentials_expiration: 0,
+                offline_failed_login_attempts: 0,
+                offline_failed_login_delay: 5,
+                pam_verbosity: 1,
+                pam_response_filter: ['ENV'],
+                pam_id_timeout: 5,
+                pam_pwd_expiration_warning: 0,
+                get_domains_timeout: 60,
+                pam_trusted_users: [0],
+                pam_public_domains: ['none'],
+                pam_account_expired_message: 'Account expired, please call help desk.',
+                pam_account_locked_message: 'Account locked, please contact help desk.',
+                pam_cert_auth: false,
+                pam_cert_db_path: '/etc/pki/nssdb',
+                p11_child_timeout: 10,
+                pam_app_services: ['test'],
+              },
             )
           end
 
@@ -150,8 +149,8 @@ describe 'sssd::service' do
           it { is_expected.to contain_sssd__service('pam') }
           it { is_expected.to contain_sssd_conf('pam/cache_first').with_value(false) }
           it { is_expected.to contain_sssd_conf('pam/client_idle_timeout').with_value('60') }
-          it { is_expected.to contain_sssd_conf('pam/debug').with_value(30704) }
-          it { is_expected.to contain_sssd_conf('pam/debug_level').with_value(30704) }
+          it { is_expected.to contain_sssd_conf('pam/debug').with_value(30_704) }
+          it { is_expected.to contain_sssd_conf('pam/debug_level').with_value(30_704) }
           it { is_expected.to contain_sssd_conf('pam/debug_microseconds').with_value('true') }
           it { is_expected.to contain_sssd_conf('pam/debug_timestamps').with_value('true') }
           it { is_expected.to contain_sssd_conf('pam/fd_limit').with_value('8192') }
@@ -193,8 +192,8 @@ describe 'sssd::service' do
           let(:params) do
             super().merge(
               {
-                :sudo_timed => false,
-              }
+                sudo_timed: false,
+              },
             )
           end
 
@@ -202,8 +201,8 @@ describe 'sssd::service' do
           it { is_expected.to contain_sssd__service('sudo') }
           it { is_expected.to contain_sssd_conf('sudo/cache_first').with_value(false) }
           it { is_expected.to contain_sssd_conf('sudo/client_idle_timeout').with_value('60') }
-          it { is_expected.to contain_sssd_conf('sudo/debug').with_value(30704) }
-          it { is_expected.to contain_sssd_conf('sudo/debug_level').with_value(30704) }
+          it { is_expected.to contain_sssd_conf('sudo/debug').with_value(30_704) }
+          it { is_expected.to contain_sssd_conf('sudo/debug_level').with_value(30_704) }
           it { is_expected.to contain_sssd_conf('sudo/debug_microseconds').with_value('true') }
           it { is_expected.to contain_sssd_conf('sudo/debug_timestamps').with_value('true') }
           it { is_expected.to contain_sssd_conf('sudo/fd_limit').with_value('8192') }
@@ -230,8 +229,8 @@ describe 'sssd::service' do
           let(:params) do
             super().merge(
               {
-                :autofs_negative_timeout => 15,
-              }
+                autofs_negative_timeout: 15,
+              },
             )
           end
 
@@ -240,8 +239,8 @@ describe 'sssd::service' do
           it { is_expected.to contain_sssd_conf('autofs/autofs_negative_timeout').with_value('15') }
           it { is_expected.to contain_sssd_conf('autofs/cache_first').with_value(false) }
           it { is_expected.to contain_sssd_conf('autofs/client_idle_timeout').with_value('60') }
-          it { is_expected.to contain_sssd_conf('autofs/debug').with_value(30704) }
-          it { is_expected.to contain_sssd_conf('autofs/debug_level').with_value(30704) }
+          it { is_expected.to contain_sssd_conf('autofs/debug').with_value(30_704) }
+          it { is_expected.to contain_sssd_conf('autofs/debug_level').with_value(30_704) }
           it { is_expected.to contain_sssd_conf('autofs/debug_microseconds').with_value('true') }
           it { is_expected.to contain_sssd_conf('autofs/debug_timestamps').with_value('true') }
           it { is_expected.to contain_sssd_conf('autofs/fd_limit').with_value('8192') }
@@ -267,10 +266,10 @@ describe 'sssd::service' do
           let(:params) do
             super().merge(
               {
-                :ssh_hash_known_hosts    => true,
-                :ssh_known_hosts_timeout => 180,
-                :ca_db                   => '/etc/pki/nssdb',
-              }
+                ssh_hash_known_hosts: true,
+                ssh_known_hosts_timeout: 180,
+                ca_db: '/etc/pki/nssdb',
+              },
             )
           end
 
@@ -279,8 +278,8 @@ describe 'sssd::service' do
           it { is_expected.to contain_sssd_conf('ssh/ca_db').with_value('/etc/pki/nssdb') }
           it { is_expected.to contain_sssd_conf('ssh/cache_first').with_value(false) }
           it { is_expected.to contain_sssd_conf('ssh/client_idle_timeout').with_value('60') }
-          it { is_expected.to contain_sssd_conf('ssh/debug').with_value(30704) }
-          it { is_expected.to contain_sssd_conf('ssh/debug_level').with_value(30704) }
+          it { is_expected.to contain_sssd_conf('ssh/debug').with_value(30_704) }
+          it { is_expected.to contain_sssd_conf('ssh/debug_level').with_value(30_704) }
           it { is_expected.to contain_sssd_conf('ssh/debug_microseconds').with_value('true') }
           it { is_expected.to contain_sssd_conf('ssh/debug_timestamps').with_value('true') }
           it { is_expected.to contain_sssd_conf('ssh/fd_limit').with_value('8192') }
@@ -308,9 +307,9 @@ describe 'sssd::service' do
           let(:params) do
             super().merge(
               {
-                :allowed_uids => [0],
-                :pac_lifetime => 300,
-              }
+                allowed_uids: [0],
+                pac_lifetime: 300,
+              },
             )
           end
 
@@ -319,8 +318,8 @@ describe 'sssd::service' do
           it { is_expected.to contain_sssd_conf('pac/allowed_uids').with_value('0') }
           it { is_expected.to contain_sssd_conf('pac/cache_first').with_value(false) }
           it { is_expected.to contain_sssd_conf('pac/client_idle_timeout').with_value('60') }
-          it { is_expected.to contain_sssd_conf('pac/debug').with_value(30704) }
-          it { is_expected.to contain_sssd_conf('pac/debug_level').with_value(30704) }
+          it { is_expected.to contain_sssd_conf('pac/debug').with_value(30_704) }
+          it { is_expected.to contain_sssd_conf('pac/debug_level').with_value(30_704) }
           it { is_expected.to contain_sssd_conf('pac/debug_microseconds').with_value('true') }
           it { is_expected.to contain_sssd_conf('pac/debug_timestamps').with_value('true') }
           it { is_expected.to contain_sssd_conf('pac/fd_limit').with_value('8192') }
@@ -347,10 +346,10 @@ describe 'sssd::service' do
           let(:params) do
             super().merge(
               {
-                :allowed_uids    => [0],
-                :user_attributes => ['+telephoneNumber'],
-                :wildcard_limit  => 1000,
-              }
+                allowed_uids: [0],
+                user_attributes: ['+telephoneNumber'],
+                wildcard_limit: 1000,
+              },
             )
           end
 
@@ -359,8 +358,8 @@ describe 'sssd::service' do
           it { is_expected.to contain_sssd_conf('ifp/allowed_uids').with_value('0') }
           it { is_expected.to contain_sssd_conf('ifp/cache_first').with_value(false) }
           it { is_expected.to contain_sssd_conf('ifp/client_idle_timeout').with_value('60') }
-          it { is_expected.to contain_sssd_conf('ifp/debug').with_value(30704) }
-          it { is_expected.to contain_sssd_conf('ifp/debug_level').with_value(30704) }
+          it { is_expected.to contain_sssd_conf('ifp/debug').with_value(30_704) }
+          it { is_expected.to contain_sssd_conf('ifp/debug_level').with_value(30_704) }
           it { is_expected.to contain_sssd_conf('ifp/debug_microseconds').with_value('true') }
           it { is_expected.to contain_sssd_conf('ifp/debug_timestamps').with_value('true') }
           it { is_expected.to contain_sssd_conf('ifp/fd_limit').with_value('8192') }
@@ -387,24 +386,24 @@ describe 'sssd::service' do
           let(:params) do
             super().merge(
               {
-                :provider             => 'local',
-                :container_nest_level => 4,
-                :max_secrets          => 1024,
-                :max_payload_size     => 16,
-                :proxy_url            => 'http://localhost:8080',
-                :auth_type            => 'header',
-                :auth_header_name     => 'MYSECRETNAME',
-                :auth_header_value    => 'mysecret',
-                :forward_headers      => [
+                provider: 'local',
+                container_nest_level: 4,
+                max_secrets: 1024,
+                max_payload_size: 16,
+                proxy_url: 'http://localhost:8080',
+                auth_type: 'header',
+                auth_header_name: 'MYSECRETNAME',
+                auth_header_value: 'mysecret',
+                forward_headers: [
                   'X-Forwarded-For',
                 ],
-                :verify_peer          => true,
-                :verify_host          => true,
-                :capath               => '/tmp/certs',
-                :cacert               => '/tmp/cacert.pem',
-                :cert                 => '/tmp/cert.pem',
-                :key                  => '/tmp/key.pem',
-              }
+                verify_peer: true,
+                verify_host: true,
+                capath: '/tmp/certs',
+                cacert: '/tmp/cacert.pem',
+                cert: '/tmp/cert.pem',
+                key: '/tmp/key.pem',
+              },
             )
           end
 
@@ -424,8 +423,8 @@ describe 'sssd::service' do
             it { is_expected.to contain_sssd_conf('secrets/cert').with_value('/tmp/cert.pem') }
             it { is_expected.to contain_sssd_conf('secrets/client_idle_timeout').with_value('60') }
             it { is_expected.to contain_sssd_conf('secrets/container_nest_level').with_value(4) }
-            it { is_expected.to contain_sssd_conf('secrets/debug').with_value(30704) }
-            it { is_expected.to contain_sssd_conf('secrets/debug_level').with_value(30704) }
+            it { is_expected.to contain_sssd_conf('secrets/debug').with_value(30_704) }
+            it { is_expected.to contain_sssd_conf('secrets/debug_level').with_value(30_704) }
             it { is_expected.to contain_sssd_conf('secrets/debug_microseconds').with_value('true') }
             it { is_expected.to contain_sssd_conf('secrets/debug_timestamps').with_value('true') }
             it { is_expected.to contain_sssd_conf('secrets/fd_limit').with_value('8192') }

@@ -1,7 +1,6 @@
 # @!visibility private
 class sssd::config {
-
-  $user = $::sssd::user
+  $user = $sssd::user
 
   $owner = $user ? {
     undef   => 0,
@@ -9,7 +8,7 @@ class sssd::config {
   }
 
   # Get parent dir from absolute path
-  $conf_dir = $::sssd::conf_file.split('/')[0,-2].join('/')
+  $conf_dir = $sssd::conf_file.split('/')[0,-2].join('/')
   file { $conf_dir:
     ensure => directory,
     owner  => $owner,
@@ -17,7 +16,7 @@ class sssd::config {
     mode   => '0611',
   }
 
-  file { $::sssd::conf_file:
+  file { $sssd::conf_file:
     ensure => file,
     owner  => $owner,
     group  => 0,
@@ -25,7 +24,7 @@ class sssd::config {
   }
 
   Sssd_conf {
-    target => $::sssd::conf_file,
+    target => $sssd::conf_file,
   }
 
   resources { 'sssd_conf':
@@ -33,33 +32,33 @@ class sssd::config {
   }
 
   $config = {
-    'debug'                    => $::sssd::debug,
-    'debug_level'              => $::sssd::debug_level,
-    'debug_timestamps'         => $::sssd::debug_timestamps,
-    'debug_microseconds'       => $::sssd::debug_microseconds,
-    'config_file_version'      => $::sssd::config_file_version,
-    'reconnection_retries'     => $::sssd::reconnection_retries,
-    're_expression'            => $::sssd::re_expression,
-    'full_name_format'         => $::sssd::full_name_format,
-    'try_inotify'              => $::sssd::try_inotify,
-    'krb5_rcache_dir'          => $::sssd::krb5_rcache_dir,
+    'debug'                    => $sssd::debug,
+    'debug_level'              => $sssd::debug_level,
+    'debug_timestamps'         => $sssd::debug_timestamps,
+    'debug_microseconds'       => $sssd::debug_microseconds,
+    'config_file_version'      => $sssd::config_file_version,
+    'reconnection_retries'     => $sssd::reconnection_retries,
+    're_expression'            => $sssd::re_expression,
+    'full_name_format'         => $sssd::full_name_format,
+    'try_inotify'              => $sssd::try_inotify,
+    'krb5_rcache_dir'          => $sssd::krb5_rcache_dir,
     'user'                     => $user,
-    'default_domain_suffix'    => $::sssd::default_domain_suffix,
-    'override_space'           => $::sssd::override_space,
-    'certificate_verification' => $::sssd::certificate_verification ? {
+    'default_domain_suffix'    => $sssd::default_domain_suffix,
+    'override_space'           => $sssd::override_space,
+    'certificate_verification' => $sssd::certificate_verification ? {
       undef   => undef,
-      default => join($::sssd::certificate_verification.map |SSSD::Certificate::Verification $x| {
-        type($x) ? {
-          Type[String] => $x,
-          default      => join($x, '='),
-        }
+      default => join($sssd::certificate_verification.map |SSSD::Certificate::Verification $x| {
+          type($x) ? {
+            Type[String] => $x,
+            default      => join($x, '='),
+          }
       }, ', '),
     },
-    'disable_netlink'          => $::sssd::disable_netlink,
-    'enable_files_domain'      => $::sssd::enable_files_domain,
-    'domain_resolution_order'  => $::sssd::domain_resolution_order ? {
+    'disable_netlink'          => $sssd::disable_netlink,
+    'enable_files_domain'      => $sssd::enable_files_domain,
+    'domain_resolution_order'  => $sssd::domain_resolution_order ? {
       undef   => undef,
-      default => join($::sssd::domain_resolution_order, ', '),
+      default => join($sssd::domain_resolution_order, ', '),
     },
     'services'                 => '',
     'domains'                  => '',
@@ -85,30 +84,30 @@ class sssd::config {
     before          => Sssd_conf['sssd/domains'],
   }
 
-  $::sssd::domains.each |$resource, $attributes| {
+  $sssd::domains.each |$resource, $attributes| {
     ::sssd::domain { $resource:
       * => $attributes,
     }
   }
 
-  $::sssd::services.each |$resource, $attributes| {
+  $sssd::services.each |$resource, $attributes| {
     ::sssd::service { $resource:
       * => $attributes,
     }
   }
 
-  if $::service_provider == 'systemd' {
+  if $facts['service_provider'] == 'systemd' {
     ensure_resource('exec', 'systemctl daemon-reload', {
-      refreshonly => true,
-      path        => $::path,
+        refreshonly => true,
+        path        => $facts['path'],
     })
 
-    $directory_seltype = $::selinux ? {
+    $directory_seltype = $facts['os']['selinux']['enabled'] ? {
       true    => 'systemd_unit_file_t',
       default => undef,
     }
 
-    $file_seltype = $::selinux ? {
+    $file_seltype = $facts['os']['selinux']['enabled'] ? {
       true    => 'sssd_unit_file_t',
       default => undef,
     }
@@ -133,7 +132,7 @@ class sssd::config {
         group   => 0,
         mode    => '0644',
         content => @(EOS/L),
-          [Service]
+                                        [Service]
           ExecStartPre=
           User=
           Group=

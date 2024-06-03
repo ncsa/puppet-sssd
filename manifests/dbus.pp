@@ -45,15 +45,14 @@ class sssd::dbus (
   Optional[Array[String, 1]]                      $user_attributes,
   Optional[Integer[0]]                            $wildcard_limit,
 ) {
-
-  if ! defined(Class['::sssd']) {
+  if ! defined(Class['sssd']) {
     fail('You must include the sssd base class before using the sssd::dbus class')
   }
 
-  contain ::sssd::dbus::install
-  contain ::sssd::dbus::config
+  contain sssd::dbus::install
+  contain sssd::dbus::config
 
-  Class['::sssd::dbus::install'] ~> Class['::sssd::dbus::config']
+  Class['sssd::dbus::install'] ~> Class['sssd::dbus::config']
 
-  Class['::dbus'] -> Class['::sssd']
+  Class['dbus'] -> Class['sssd']
 }

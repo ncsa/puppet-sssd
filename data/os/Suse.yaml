@@ -1,0 +1,6 @@
+---
+sssd::domains:
+  ncsa.illinois.edu:
+    ldap_tls_cacert: "/var/lib/ca-certificates/ca-bundle.pem"
+
+sssd::package_name: "sssd"

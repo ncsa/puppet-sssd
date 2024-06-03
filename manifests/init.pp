@@ -70,11 +70,10 @@ class sssd (
   Optional[Boolean]                                                     $use_socket_activation,
   Optional[String]                                                      $user,
 ) {
+  contain sssd::install
+  contain sssd::config
+  contain sssd::daemon
 
-  contain ::sssd::install
-  contain ::sssd::config
-  contain ::sssd::daemon
-
-  Class['::sssd::install'] ~> Class['::sssd::config']
-    ~> Class['::sssd::daemon']
+  Class['sssd::install'] ~> Class['sssd::config']
+  ~> Class['sssd::daemon']
 }

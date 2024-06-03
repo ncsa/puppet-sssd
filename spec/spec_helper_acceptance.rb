@@ -5,7 +5,7 @@ require 'beaker/module_install_helper'
 
 hosts.each do |host|
   # Just assume the OpenBSD box has Puppet installed already
-  if host['platform'] !~ /^openbsd-/i
+  unless %r{^openbsd-}i.match?(host['platform'])
     run_puppet_install_helper_on(host)
   end
 end
