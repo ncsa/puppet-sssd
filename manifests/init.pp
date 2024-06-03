@@ -9,6 +9,7 @@
 #   }
 #
 # @param conf_file
+# @param default_tls_cacert
 # @param domains
 # @param package_name
 # @param service_name
@@ -43,6 +44,7 @@
 class sssd (
   Stdlib::Absolutepath                                                  $conf_file,
   Integer[2]                                                            $config_file_version,
+  String                                                                $default_tls_cacert,
   Hash[String, Hash[String, Any]]                                       $domains,
   Variant[String, Array[String, 1]]                                     $package_name,
   String                                                                $service_name,
