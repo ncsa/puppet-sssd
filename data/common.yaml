@@ -1,16 +1,16 @@
 ---
 lookup_options:
-    sssd::services:
-        merge:
-            strategy: deep
-            knockout_prefix: '-'
-    sssd::domains:
-        merge:
-            strategy: deep
-            knockout_prefix: '-'
+  sssd::services:
+    merge:
+      strategy: "deep"
+      knockout_prefix: "-"
+  sssd::domains:
+    merge:
+      strategy: "deep"
+      knockout_prefix: "-"
 
 sssd::certificate_verification: null
-sssd::conf_file: /etc/sssd/sssd.conf
+sssd::conf_file: "/etc/sssd/sssd.conf"
 sssd::config_file_version: 2
 sssd::debug: null
 sssd::debug_level: null
@@ -27,8 +27,8 @@ sssd::override_space: null
 sssd::re_expression: null
 sssd::reconnection_retries: null
 sssd::service_enable: true
-sssd::service_ensure: running
-sssd::service_name: sssd
+sssd::service_ensure: "running"
+sssd::service_name: "sssd"
 sssd::services: {}
 sssd::socket_services: null
 sssd::try_inotify: null
@@ -44,7 +44,7 @@ sssd::dbus::debug_microseconds: null
 sssd::dbus::debug_timestamps: null
 sssd::dbus::fd_limit: null
 sssd::dbus::offline_timeout: null
-sssd::dbus::package_name: sssd-dbus
+sssd::dbus::package_name: "sssd-dbus"
 sssd::dbus::reconnection_retries: null
 sssd::dbus::responder_idle_timeout: null
 sssd::dbus::timeout: null
