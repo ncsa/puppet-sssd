@@ -77,6 +77,7 @@ include ::sssd
 The following parameters are available in the `sssd` class:
 
 * [`conf_file`](#conf_file)
+* [`default_tls_cacert`](#default_tls_cacert)
 * [`domains`](#domains)
 * [`package_name`](#package_name)
 * [`service_name`](#service_name)
@@ -106,6 +107,12 @@ The following parameters are available in the `sssd` class:
 ##### <a name="conf_file"></a>`conf_file`
 
 Data type: `Stdlib::Absolutepath`
+
+
+
+##### <a name="default_tls_cacert"></a>`default_tls_cacert`
+
+Data type: `String`
 
 
 

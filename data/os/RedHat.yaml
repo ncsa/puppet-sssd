@@ -1,2 +1,4 @@
 ---
+sssd::default_tls_cacert: "/etc/pki/tls/certs/ca-bundle.crt"
+
 sssd::package_name: sssd

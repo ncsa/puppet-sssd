@@ -1,0 +1,11 @@
+---
+sssd::default_tls_cacert: "/var/lib/ca-certificates/ca-bundle.pem"
+
+sssd::package_name:
+  - "sssd"
+  - "python3-sssd-config"
+  - "sssd-common"
+  - "sssd-krb5"
+  - "sssd-krb5-common"
+  - "sssd-ldap"
+  - "sssd-tools"

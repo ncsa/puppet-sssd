@@ -86,8 +86,13 @@ class sssd::config {
   }
 
   $::sssd::domains.each |$resource, $attributes| {
+    if ( ! ( 'ldap_tls_cacert' in $attributes ) and ! empty ($::sssd::default_tls_cacert) ) {
+      $updated_attributes = $attributes + { 'ldap_tls_cacert' => $::sssd::default_tls_cacert }
+    } else {
+      $updated_attributes = $attributes
+    }
     ::sssd::domain { $resource:
-      * => $attributes,
+      * => $updated_attributes,
     }
   }
 
